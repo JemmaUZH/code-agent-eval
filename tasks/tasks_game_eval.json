@@ -1,0 +1,67 @@
+[
+    {
+      "id": "game_001",
+      "title": "井字棋胜负判断",
+      "description": "实现一个函数 check_win(board)，输入为一个 3x3 的井字棋棋盘（二维数组），每个格子可能为 'X', 'O' 或空字符串。输出应为 'X wins', 'O wins', 'Draw'（平局）或 'Pending'（未结束）。",
+      "input": [["X", "O", "X"], ["O", "X", "O"], ["O", "", "X"]],
+      "expected_output": "X wins",
+      "test_code": "assert check_win([['X', 'O', 'X'], ['O', 'X', 'O'], ['O', '', 'X']]) == 'X wins'",
+      "ground_truth": "def check_win(board):\n    for i in range(3):\n        if board[i][0] == board[i][1] == board[i][2] != '':\n            return board[i][0] + ' wins'\n        if board[0][i] == board[1][i] == board[2][i] != '':\n            return board[0][i] + ' wins'\n    if board[0][0] == board[1][1] == board[2][2] != '':\n        return board[0][0] + ' wins'\n    if board[0][2] == board[1][1] == board[2][0] != '':\n        return board[0][2] + ' wins'\n    for row in board:\n        if '' in row:\n            return 'Pending'\n    return 'Draw'",
+      "tags": ["logic", "game", "2D-array"]
+    },
+    {
+      "id": "game_002",
+      "title": "贪吃蛇碰撞检测",
+      "description": "实现函数 snake_collision(snake, direction, grid_size)，判断贪吃蛇在给定方向上移动一步后，是否撞墙或咬到自己。",
+      "input": {
+        "snake": [[2,2],[2,3],[2,4]],
+        "direction": "R",
+        "grid_size": [5, 5]
+      },
+      "expected_output": false,
+      "test_code": "assert snake_collision([[2,2],[2,3],[2,4]], 'R', [5,5]) == False",
+      "ground_truth": "def snake_collision(snake, direction, grid_size):\n    head = snake[-1][:]\n    if direction == 'U': head[0] -= 1\n    elif direction == 'D': head[0] += 1\n    elif direction == 'L': head[1] -= 1\n    elif direction == 'R': head[1] += 1\n    if head in snake or not (0 <= head[0] < grid_size[0] and 0 <= head[1] < grid_size[1]):\n        return True\n    return False",
+      "tags": ["game", "snake", "grid", "movement"]
+    },
+    {
+      "id": "game_003",
+      "title": "回合制战斗模拟",
+      "description": "实现函数 battle(player, enemy)，输入两个角色属性字典，模拟回合制战斗，返回获胜方名称。",
+      "input": {
+        "player": {"hp": 30, "atk": 10, "def": 2},
+        "enemy": {"hp": 25, "atk": 8, "def": 1}
+      },
+      "expected_output": "player",
+      "test_code": "assert battle({'hp': 30, 'atk': 10, 'def': 2}, {'hp': 25, 'atk': 8, 'def': 1}) == 'player'",
+      "ground_truth": "def battle(player, enemy):\n    p, e = dict(player), dict(enemy)\n    while p['hp'] > 0 and e['hp'] > 0:\n        e['hp'] -= max(1, p['atk'] - e['def'])\n        if e['hp'] <= 0:\n            return 'player'\n        p['hp'] -= max(1, e['atk'] - p['def'])\n        if p['hp'] <= 0:\n            return 'enemy'\n    return 'draw'",
+      "tags": ["game", "RPG", "combat", "loop"]
+    },
+    {
+      "id": "game_004",
+      "title": "敌人 AI 移动方向判断",
+      "description": "实现函数 enemy_move(player_pos, enemy_pos)，输入玩家与敌人坐标，返回敌人朝向玩家的移动方向（U/D/L/R）。",
+      "input": {
+        "player_pos": [0, 0],
+        "enemy_pos": [2, 3]
+      },
+      "expected_output": "U",
+      "test_code": "assert enemy_move([0, 0], [2, 3]) == 'U'",
+      "ground_truth": "def enemy_move(player_pos, enemy_pos):\n    dx = player_pos[0] - enemy_pos[0]\n    dy = player_pos[1] - enemy_pos[1]\n    if abs(dx) >= abs(dy):\n        return 'U' if dx < 0 else 'D'\n    else:\n        return 'L' if dy < 0 else 'R'",
+      "tags": ["AI", "movement", "grid", "decision"]
+    },
+    {
+      "id": "game_005",
+      "title": "技能冷却判断",
+      "description": "实现函数 can_cast(cooldown, last_cast_time, current_time)，判断技能是否冷却完成可以释放。",
+      "input": {
+        "cooldown": 5,
+        "last_cast_time": 10,
+        "current_time": 16
+      },
+      "expected_output": true,
+      "test_code": "assert can_cast(5, 10, 16) == True",
+      "ground_truth": "def can_cast(cooldown, last_cast_time, current_time):\n    return (current_time - last_cast_time) >= cooldown",
+      "tags": ["cooldown", "timing", "logic"]
+    }
+  ]
+  
